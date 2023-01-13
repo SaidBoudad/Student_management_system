@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class StudentController {
+    
     private StudentService studentService;
 
     public StudentController(StudentService studentService) {
@@ -21,6 +22,7 @@ public class StudentController {
         model.addAttribute("students",studentService.getAllStudents());
         return "students";
     }
+    
     //method to create new student object
     @GetMapping("/students/new")
     public String creatStudentForm(Model model){
@@ -28,16 +30,19 @@ public class StudentController {
         model.addAttribute("student",student);
         return "create_student";
     }
+    
     @PostMapping("/students")
     public String saveStudent(@ModelAttribute("student") Student student){
         studentService.saveStudent(student);
         return "redirect:/students";
     }
+    
     @GetMapping("/students/edit/{id}")
     public String editeStudent(@PathVariable Long id,Model model){
         model.addAttribute("student",studentService.getStudentById(id));
         return "edit_student";
     }
+    
     @PostMapping("/students/{id}")
     public String updateStudent(@PathVariable Long id,@ModelAttribute("student") Student student,Model model){
         //get student from DB by id
@@ -50,6 +55,7 @@ public class StudentController {
         studentService.saveStudent(existingStudent);
         return "redirect:/students";
     }
+    
     @GetMapping("/students/{id}")
     public String deleteStudent(@PathVariable Long id){
         studentService.deleteStudent(id);
